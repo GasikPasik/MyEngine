@@ -9,6 +9,8 @@ from cube import Cube
 
 from random import uniform
 
+from generation import generationMatixLandscape
+
 WINDOW_SIZE = (600, 600)
 focus_mouse = False
 
@@ -16,10 +18,7 @@ grid = Grid(size=8)
 player = Player(5, -5, 1, 180)
 
 ALL_CUBES = []
-ALL_CUBES.append(Cube(0.2, 0.5, 0.5, 2))
-ALL_CUBES.append(Cube(0.15, 0, 0.5, 4))
-ALL_CUBES.append(Cube(0.4, 0, -1.3, 2))
-ALL_CUBES.append(Cube(0.2, 0, -1.1, 3))
+POLYGON_OF_CUBES = []
 
 viewMatrix = None
 
@@ -130,6 +129,41 @@ def update(screen):
         pg.time.wait(10)
     
 
+def initWorld(size = 50, zoom = 10):
+
+
+    ALL_CUBES = []
+
+    size_of_cube = 1/zoom
+
+    landscape = generationMatixLandscape(size)
+    for x in range(size):
+        for y in range(size):
+            z = landscape[x][y]
+            ALL_CUBES.append(Cube(size_of_cube, x/zoom, y/zoom, z/zoom))
+
+    POLYGON_OF_CUBES = []
+    for x in range(size):
+        for y in range(size):
+            z = landscape[x][y]
+            
+            nX /= zoom
+            nY /= zoom
+            nZ /= zoom
+
+            if(x == 0):
+                POLYGON_OF_CUBES.append([nY - size_of_cube, nY, nZ])
+            elif(x == size - 1):
+                POLYGON_OF_CUBES.append([nY + size_of_cube, nY, nZ])
+            else:
+                if(landscape)
+
+
+    return ALL_CUBES
+
+
+    
+
 
 def main():
     print("Start game..")
@@ -144,6 +178,8 @@ def main():
     gluLookAt(0, -5, 0, 0, 0, 0, 0, 0, 1)
     viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
 
+    global ALL_CUBES
+    ALL_CUBES = initWorld()
 
     update(screen)
 
